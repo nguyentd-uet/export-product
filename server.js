@@ -4,6 +4,7 @@ const puppeteer = require('puppeteer');
 var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
+app.use('/public',express.static('public'));
 
 app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
 

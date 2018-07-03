@@ -3,7 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<base href="/">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<link href="/public/bootstrap-tagsinput.css" rel="stylesheet" type="text/css">
 	<title>Document</title>
 
 </head>
@@ -17,7 +19,7 @@
 			    		<div class="input-group">
 					        <input type="text" class="form-control" id="link" name="link" placeholder="Enter the link product" aria-describedby="inputGroupPrepend2" required>
 					        <div class="input-group-prepend">
-					          <button type="button" class="input-group-text" id="inputGroupPrepend2">Enter</span>
+					          <button type="button" class="btn btn-primary" id="inputGroupPrepend2">Enter</span>
 					        </div>
 					    </div>
 			    	</form>
@@ -31,17 +33,88 @@
     <div class="row mt-5 enter-product" hidden>
 		<div class="col-md-10 offset-md-1">
 			<div class="card">
-				<h5 class="card-header">Enter product</h5>
+				<h5 class="card-header">Export product</h5>
 				<div class="card-body">
-			    	<form>
-			    		<div class="input-group">
-					        <input type="text" class="form-control" placeholder="Enter the link product" aria-describedby="inputGroupPrepend" required>
-					        <div class="input-group-prepend">
-					          <button type="button" class="input-group-text" id="inputGroupPrepend">Enter</span>
-					        </div>
-					    </div>
-			    	</form>
-			     
+					<div class="row">
+						<div class="form-group col-md-4">
+							<label for="">Price</label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text">$</div>
+								</div>
+								<input type="text" class="form-control" aria-describedby="price">
+							</div>
+						</div>
+							
+						<div class="form-group col-md-4">
+							<label for="">Compare at price</label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text">$</div>
+								</div>
+								<input type="text" class="form-control" aria-describedby="compare_price">
+							</div>
+						</div>
+	
+						<div class="form-group col-md-4">
+							<label for="">Weight</label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<select class="form-control">
+										<option value="0">kg</option>
+										<option value="1">g</option>
+									</select>
+								</div>
+								<input type="text" class="form-control" aria-describedby="weight">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-2">
+							<label for="">Variants</label>
+							<input type="text" class="form-control" id="variants" placeholder="Options">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-12">
+							<input type="text" value="Black, Red, Green" data-role="tagsinput" />
+						</div>
+						<div class="form-group col-md-1">
+							<button type="button" class="btn btn-danger">Remove</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-12">
+							<button type="button" class="btn btn-success float-right">Add variants</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-3">
+							<label for="">Product Type</label>
+							<input type="text" class="form-control" id="product-type" aria-describedby="product-type">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="">Product Type</label>
+							<input type="text" value="bag, Cat lover, rr_track_accessories" data-role="tagsinput" />
+						</div>
+						<div class="form-group col-md-3">
+							<label for="">Vendor</label>
+							<input type="text" class="form-control" id="vendor" aria-describedby="vendor">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-9">
+							<label for="">Collections</label>
+							<input type="text" class="form-control" aria-describedby="collections">
+						</div>
+						<div class="form-group col-md-3">
+							<label for="">Export to Stores</label>
+							<select class="form-control">
+								<option value="">spreepaws</option>
+							</select>
+						</div>
+					</div>
+					<button class="btn btn-primary">Post to Shopify</button>
 			  	</div>
 			</div>
 		</div>	
@@ -51,7 +124,8 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    
+	<script src="/public/bootstrap-tagsinput.js"></script>
+	
     <script>
         $(document).ready(function(){
             $("#inputGroupPrepend2").click(function(){
@@ -65,10 +139,15 @@
                         console.log(data);
                         var products = data.data.product;
                         $('.input-link').hide();
-                        $('.enter-product').removeAttr('hidden');
+						$('.enter-product').removeAttr('hidden');
+						
+						$('#vendor').val(products.vendor);
+						$('#product-type').val(products.type);
+
                     }
                 });
-            });
+			});
+			
         });
     </script>
 </body>
